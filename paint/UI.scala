@@ -11,6 +11,19 @@ object UI extends SimpleSwingApplication {
    */
   def top = new MainFrame () {
     title = "ScalaPaint"
+      
+    menuBar = new MenuBar() {
+      contents += new Menu("File") {
+        contents += new MenuItem(new Action("Quit") {
+          def apply = {System.exit(0)}
+          accelerator = Some(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0))
+        })
+        contents += new MenuItem(new Action("menu button") {
+          def apply = println("foobar")
+        })
+      }
+    }
+    
     contents = new GridBagPanel {
       def constraints(x: Int, y: Int, gridwidth: Int = 1, gridheight: Int = 1,
                       weightx: Double = 0.0, weighty: Double = 0.0, fill: GridBagPanel.Fill.Value = GridBagPanel.Fill.None): Constraints = {
@@ -22,13 +35,16 @@ object UI extends SimpleSwingApplication {
       c
     }
 
-    val toolbar = new ToolPanel(6, 2)
+    val toolbar = new ToolPanel(8, 2)
     add(toolbar, constraints(0, 0, gridheight=2))
     
     add(new ScrollPane(new PaintPanel(400, 400)),
 	constraints(1, 0, gridwidth=2, gridheight=4, weightx = 1.0, weighty = 1.0, 
 		    fill=GridBagPanel.Fill.Both))
+	centerOnScreen
   }
-  }
+    
+    
 
+  }
 }
