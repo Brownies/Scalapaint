@@ -6,8 +6,8 @@ import java.awt.Color
 
 object UI extends SimpleSwingApplication {
   
-  /*pohjana käytetty Otfried Cheongin tutoriaalia,
-    eritoten http://otfried-cheong.appspot.com/scala/index_40.html
+  /*Based on Otfried Cheong's tutorial
+    http://otfried-cheong.appspot.com/scala/index_40.html
    */
   def top = new MainFrame () {
     title = "ScalaPaint"
@@ -41,10 +41,7 @@ object UI extends SimpleSwingApplication {
     add(new ScrollPane(new PaintPanel(400, 400)),
 	constraints(1, 0, gridwidth=2, gridheight=4, weightx = 1.0, weighty = 1.0, 
 		    fill=GridBagPanel.Fill.Both))
-	centerOnScreen
   }
-    
-    
-
+  centerOnScreen
   }
 }
