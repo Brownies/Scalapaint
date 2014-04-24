@@ -6,10 +6,10 @@ import javax.swing.ImageIcon
 
 class ToolPanel(x: Int, y: Int, main: Paint) extends GridPanel(x, y){
   focusable = false
-  preferredSize = new Dimension(100, 400)
-  minimumSize = new Dimension(100, 400)
-  maximumSize = new Dimension(100, 400)
-  val tools = Vector("square", "square_fill", "rectangle", "rectangle_fill", "circle", "circle_fill", "ellipse", "ellipse_fill")
+  preferredSize = new Dimension(100, 500)
+  minimumSize = new Dimension(100, 500)
+  maximumSize = new Dimension(100, 500)
+  val tools = Vector("line", "text", "square", "square_fill", "rectangle", "rectangle_fill", "circle", "circle_fill", "ellipse", "ellipse_fill")
   val toolButtons = scala.collection.mutable.Buffer[Button]()
   tools.foreach(tool => toolButtons += new Button {
     icon = new ImageIcon("src/paint/pics/" + tool + ".png")//this must be changed if not using eclipse

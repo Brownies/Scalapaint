@@ -38,7 +38,7 @@ object UI extends SimpleSwingApplication {
       c
     }
 
-    val toolbar = new ToolPanel(8, 2, main)
+    val toolbar = new ToolPanel(9, 2, main)
     add(toolbar, constraints(0, 0, gridheight=2))
     
     add(new ScrollPane(new PaintPanel(400, 400, main)),
