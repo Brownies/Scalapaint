@@ -5,6 +5,9 @@ import scala.swing._
 import java.awt.Color
 
 object UI extends SimpleSwingApplication {
+  val main = new Paint
+  
+  
   
   /*Based on Otfried Cheong's tutorial
     http://otfried-cheong.appspot.com/scala/index_40.html
@@ -35,10 +38,10 @@ object UI extends SimpleSwingApplication {
       c
     }
 
-    val toolbar = new ToolPanel(8, 2)
+    val toolbar = new ToolPanel(8, 2, main)
     add(toolbar, constraints(0, 0, gridheight=2))
     
-    add(new ScrollPane(new PaintPanel(400, 400)),
+    add(new ScrollPane(new PaintPanel(400, 400, main)),
 	constraints(1, 0, gridwidth=2, gridheight=4, weightx = 1.0, weighty = 1.0, 
 		    fill=GridBagPanel.Fill.Both))
   }

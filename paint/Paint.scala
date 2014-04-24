@@ -37,8 +37,24 @@ class Paint {
   private def drawCircle(x: Double, y: Double, d: Double) = objects += new Circle(x, y, d, currentColor, fill)
   private def drawEllipse(x: Double, y: Double, width: Double, height: Double) = objects += new Ellipse(x, y, width, height, currentColor, fill)
 }
+trait Colored {def getColor: Color; def getFill: Boolean}
 
-class Circle(x: Double, y: Double, d: Double, color: Color, fill: Boolean) extends Ellipse2D.Double(x, y, d, d) {}
-class Ellipse(x: Double, y: Double, width: Double, height: Double, color: Color, fill: Boolean) extends Ellipse2D.Double(x, y, width, height) {}
-class Square(x: Double, y: Double, a: Double, color: Color, fill: Boolean) extends Rectangle2D.Double(x, y, a, a) {}
-class Rectangle(x: Double, y: Double, width: Double, height: Double, color: Color, fill: Boolean) extends Rectangle2D.Double(x, y, width, height) {}
+class Circle(x: Double, y: Double, d: Double, color: Color, fill: Boolean)
+             extends Ellipse2D.Double(x, y, d, d) with Colored {
+  def getColor = color; def getFill = fill
+}
+
+class Ellipse(x: Double, y: Double, width: Double, height: Double, color: Color, fill: Boolean)
+              extends Ellipse2D.Double(x, y, width, height) with Colored {
+  def getColor = color; def getFill = fill
+}
+
+class Square(x: Double, y: Double, a: Double, color: Color, fill: Boolean)
+             extends Rectangle2D.Double(x, y, a, a) with Colored {
+  def getColor = color; def getFill = fill
+}
+
+class Rectangle(x: Double, y: Double, width: Double, height: Double, color: Color, fill: Boolean)
+                extends Rectangle2D.Double(x, y, width, height) with Colored {
+  def getColor = color; def getFill = fill
+}
