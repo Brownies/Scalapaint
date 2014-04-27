@@ -87,11 +87,17 @@ trait Colored {def getColor: Color; def getFill: Boolean}
 class Line(x1: Double, y1: Double, x2: Double, y2: Double, color: Color)
            extends Line2D.Double(x1, y1, x2, y2) with Colored {
   def getColor = color; def getFill = false
+  override def toString: String = {
+    Array[Int](x1.toInt,y1.toInt,x2.toInt,y2.toInt,color.getRGB).mkString(",")
+  }
 }
 
 
 class Text(val x: Float, val y: Float, val string: String, color: Color) extends Colored {
   def getColor = color; def getFill = false;
+  override def toString: String = {
+    Array[AnyVal](x.toInt, y.toInt, string, color.getRGB).mkString(",")
+  }
 }
 
 

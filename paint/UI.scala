@@ -1,15 +1,12 @@
 package paint
-import javax.swing.SwingUtilities
-import javax.swing.JComponent
 import javax.swing.KeyStroke
 import java.awt.event.ActionEvent
 import java.awt.event.KeyEvent
 import scala.swing._
-import java.awt.Color
 
 object UI extends SimpleSwingApplication {
   val main = new Paint
-  
+  val io = new IO(main)
   
   
   /*Based on Otfried Cheong's tutorial
@@ -41,6 +38,7 @@ object UI extends SimpleSwingApplication {
       }
     }
     
+    
     contents = new GridBagPanel {
       def constraints(x: Int, y: Int, gridwidth: Int = 1, gridheight: Int = 1,
                       weightx: Double = 0.0, weighty: Double = 0.0, fill: GridBagPanel.Fill.Value = GridBagPanel.Fill.None): Constraints = {
@@ -55,7 +53,6 @@ object UI extends SimpleSwingApplication {
     val toolbar = new ToolPanel(9, 2, main)
     add(toolbar, constraints(0, 0, gridheight=2))
     
-    val asd = new ScrollPane(new PaintPanel(400, 400, main))
     add(new ScrollPane(new PaintPanel(400, 400, main)),
 	constraints(1, 0, gridwidth=2, gridheight=4, weightx = 1.0, weighty = 1.0, 
 		    fill=GridBagPanel.Fill.Both))
