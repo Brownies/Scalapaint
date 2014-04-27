@@ -1,6 +1,7 @@
 package paint
 
 import scala.collection.mutable.Buffer
+import scala.collection.mutable.Stack
 import java.awt.Color
 import java.awt.Shape
 import java.awt.geom._
@@ -20,7 +21,6 @@ class Paint {
   def setCurrentTool(newTool: String) = {currentTool = newTool}
   def setFill(a: Boolean) = {fill = a}
   
-  def getTool = currentTool
   def draw(x1: Double, x2: Double, y1: Double, y2: Double): Unit = {
     currentTool match {
       case "square" => drawSquare(min(x1,x2), min(y1,y2), max(abs(x1-x2), abs(y1-y2)))
@@ -35,15 +35,51 @@ class Paint {
   
   
   //helpers for draw()
-  private def drawLine(x1: Double, y1: Double, x2: Double, y2: Double) = {objects += new Line(x1, y1, x2, y2, currentColor)}
-  private def drawText(x: Double, y: Double) = {
-    val string = Dialog.showInput(null, "Please enter the the text", "Text", Dialog.Message.Question, null, initial = "3").get
-    objects += new Text(x.toFloat, y.toFloat, string, currentColor)
+  private def drawLine(x1: Double, y1: Double, x2: Double, y2: Double) = {
+    objects += new Line(x1, y1, x2, y2, currentColor)
+    redoStack.clear
   }
-  private def drawSquare(x: Double, y: Double, a: Double) = {objects += new Square(x, y, a, currentColor, fill)}
-  private def drawRectangle(x: Double, y: Double, width: Double, height: Double) = {objects += new Rectangle(x, y, width, height, currentColor, fill)}
-  private def drawCircle(x: Double, y: Double, d: Double) = {objects += new Circle(x, y, d, currentColor, fill)}
-  private def drawEllipse(x: Double, y: Double, width: Double, height: Double) = {objects += new Ellipse(x, y, width, height, currentColor, fill)}
+  
+  private def drawText(x: Double, y: Double) = {
+    val string = Dialog.showInput(null, "Please enter the the text", "Text", Dialog.Message.Question, null, initial = "").getOrElse("")
+    if (string != "") {
+      objects += new Text(x.toFloat, y.toFloat, string, currentColor)
+      redoStack.clear
+    }
+  }
+  
+  private def drawSquare(x: Double, y: Double, a: Double) = {
+    objects += new Square(x, y, a, currentColor, fill)
+    redoStack.clear
+  }
+  
+  private def drawRectangle(x: Double, y: Double, width: Double, height: Double) = {
+    objects += new Rectangle(x, y, width, height, currentColor, fill)
+    redoStack.clear
+  }
+  
+  private def drawCircle(x: Double, y: Double, d: Double) = {
+    objects += new Circle(x, y, d, currentColor, fill)
+    redoStack.clear
+  }
+  
+  private def drawEllipse(x: Double, y: Double, width: Double, height: Double) = {
+    objects += new Ellipse(x, y, width, height, currentColor, fill)
+    redoStack.clear
+  }
+  
+
+  private var redoStack = Stack[Colored]()
+  def undo = {
+    if (objects.nonEmpty) {
+      redoStack.push(objects.last)
+      objects.trimEnd(1)
+    }
+  }
+  
+  def redo = {
+    if (redoStack.nonEmpty) objects += redoStack.pop
+  }
 }
 
 trait Colored {def getColor: Color; def getFill: Boolean}

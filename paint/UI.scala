@@ -1,5 +1,8 @@
 package paint
+import javax.swing.SwingUtilities
+import javax.swing.JComponent
 import javax.swing.KeyStroke
+import java.awt.event.ActionEvent
 import java.awt.event.KeyEvent
 import scala.swing._
 import java.awt.Color
@@ -14,7 +17,7 @@ object UI extends SimpleSwingApplication {
    */
   def top = new MainFrame () {
     title = "ScalaPaint"
-      
+    
     menuBar = new MenuBar() {
       contents += new Menu("File") {
         contents += new MenuItem(new Action("Quit") {
@@ -23,6 +26,17 @@ object UI extends SimpleSwingApplication {
         })
         contents += new MenuItem(new Action("menu button") {
           def apply = println("foobar")
+        })
+      }
+      
+      contents += new Menu("Edit") {
+        contents += new MenuItem(new Action("Undo") {
+          def apply = main.undo
+          accelerator = Some(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK))
+        })
+        contents += new MenuItem(new Action("Redo") {
+          def apply = main.redo
+          accelerator = Some(KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.CTRL_MASK))
         })
       }
     }
@@ -41,9 +55,11 @@ object UI extends SimpleSwingApplication {
     val toolbar = new ToolPanel(9, 2, main)
     add(toolbar, constraints(0, 0, gridheight=2))
     
+    val asd = new ScrollPane(new PaintPanel(400, 400, main))
     add(new ScrollPane(new PaintPanel(400, 400, main)),
 	constraints(1, 0, gridwidth=2, gridheight=4, weightx = 1.0, weighty = 1.0, 
 		    fill=GridBagPanel.Fill.Both))
+
   }
   centerOnScreen
   }
