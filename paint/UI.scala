@@ -21,8 +21,11 @@ object UI extends SimpleSwingApplication {
           def apply = {System.exit(0)}
           accelerator = Some(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0))
         })
-        contents += new MenuItem(new Action("menu button") {
-          def apply = println("foobar")
+        contents += new MenuItem(new Action("Save") {
+          def apply = io.save
+        })
+        contents += new MenuItem(new Action("Load") {
+          def apply = io.load
         })
       }
       

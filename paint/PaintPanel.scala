@@ -31,8 +31,8 @@ class PaintPanel(x: Int, y: Int, main: Paint) extends GridPanel(1,1) {
         var elem2 = elem.asInstanceOf[Text]
         g.drawString(elem2.string, elem2.x, elem2.y)
       }
-      println(elem.getClass())
-      println(elem.toString())
+//      println(elem.getClass())
+//      println(elem.toString())
     })
   }
 }
