@@ -28,7 +28,7 @@ class IO (main: Paint) {
   def load: Unit = {
     
     val filename = Dialog.showInput(null,
-        "Enter the name of the file to be saved. Warning: this will overwrite any file with the same name",
+        "Enter the name of the file to be loaded",
         "Filename", Dialog.Message.Question, null, initial = ".txt").getOrElse("")
     if (filename.isEmpty()) throw new IOException("Invalid file name")
     val file = new File(filename)

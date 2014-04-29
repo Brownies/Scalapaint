@@ -12,7 +12,8 @@ object UI extends SimpleSwingApplication {
   /*Based on Otfried Cheong's tutorial
     http://otfried-cheong.appspot.com/scala/index_40.html
    */
-  def top = new MainFrame () {
+  def top = frame.pack
+  val frame: MainFrame = new MainFrame () {
     title = "ScalaPaint"
     
     menuBar = new MenuBar() {
@@ -22,25 +23,36 @@ object UI extends SimpleSwingApplication {
           accelerator = Some(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0))
         })
         contents += new MenuItem(new Action("Save") {
-          def apply = io.save
+          def apply = {
+            io.save
+            frame.contents.head.asInstanceOf[GridBagPanel].contents(1).repaint
+          }
         })
         contents += new MenuItem(new Action("Load") {
-          def apply = io.load
+          def apply = {
+            io.load
+            frame.contents.head.asInstanceOf[GridBagPanel].contents(1).repaint
+          }
         })
       }
       
       contents += new Menu("Edit") {
         contents += new MenuItem(new Action("Undo") {
-          def apply = main.undo
+          def apply = {
+            main.undo
+            frame.contents.head.asInstanceOf[GridBagPanel].contents(1).repaint
+          }
           accelerator = Some(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK))
         })
         contents += new MenuItem(new Action("Redo") {
-          def apply = main.redo
+          def apply = {
+            main.redo
+            frame.contents.head.asInstanceOf[GridBagPanel].contents(1).repaint
+          }
           accelerator = Some(KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.CTRL_MASK))
         })
       }
     }
-    
     
     contents = new GridBagPanel {
       def constraints(x: Int, y: Int, gridwidth: Int = 1, gridheight: Int = 1,
@@ -55,6 +67,7 @@ object UI extends SimpleSwingApplication {
 
     val toolbar = new ToolPanel(9, 2, main)
     add(toolbar, constraints(0, 0, gridheight=2))
+    
     
     add(new ScrollPane(new PaintPanel(400, 400, main)),
 	constraints(1, 0, gridwidth=2, gridheight=4, weightx = 1.0, weighty = 1.0, 
