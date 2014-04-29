@@ -79,6 +79,7 @@ class IO (main: Paint) {
         case _ =>
       }
     }
+    scanner.close()
   }
   
 }
