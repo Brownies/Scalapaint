@@ -6,12 +6,18 @@ import java.awt.Shape
 class PaintPanel(x: Int, y: Int, main: Paint) extends GridPanel(1,1) {
   
   preferredSize = new Dimension(x,y)
-  listenTo(mouse.clicks)
+  listenTo(mouse.clicks, mouse.moves)
   var x1, x2, y1, y2 = 0D
   this.reactions += {
-    case a: event.MousePressed => this.x1 = a.point.getX; this.y1 = a.point.getY
-    case b: event.MouseReleased => {
-      this.x2 = b.point.getX; this.y2 = b.point.getY
+    case a: event.MousePressed => this.x1 = a.point.getX; this.y1 = a.point.getY; main.setPreview(true)
+    case b: event.MouseDragged => {
+      this.x2 = b.point.getX(); this.y2 = b.point.getY()
+      main.draw(this.x1, this.x2, this.y1, this.y2)
+      this.repaint
+    }
+    case c: event.MouseReleased => {
+      main.setPreview(false)
+      this.x2 = c.point.getX; this.y2 = c.point.getY
       main.draw(this.x1, this.x2, this.y1, this.y2)
       this.repaint
     }
@@ -34,5 +40,12 @@ class PaintPanel(x: Int, y: Int, main: Paint) extends GridPanel(1,1) {
 //      println(elem.getClass())
 //      println(elem.toString())
     })
+    if (main.isPreview){
+      g.setColor(main.getPreviewElement.getColor)
+      if (main.getPreviewElement.getFill) {
+        g.fill(main.getPreviewElement.asInstanceOf[Shape])
+      }
+      else g.draw(main.getPreviewElement.asInstanceOf[Shape])
+    }
   }
 }

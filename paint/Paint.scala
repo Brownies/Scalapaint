@@ -15,12 +15,17 @@ class Paint {
   private var currentColor = Color.BLACK
   private var currentTool = "square"
   private var fill = false
+  private var preview = false
+  private var previewElement: Colored = null
 
   def getObjects = objects
   def setCurrentColor(newColor: Color) = {currentColor = newColor}
   def setCurrentTool(newTool: String) = {currentTool = newTool}
   def setFill(a: Boolean) = {fill = a}
-  def clear = objects.clear
+  def clear = {objects.clear}
+  def setPreview(a: Boolean) = {preview = a}
+  def isPreview = {preview}
+  def getPreviewElement = {previewElement}
   
   def draw(x1: Double, x2: Double, y1: Double, y2: Double, stringForText: String = ""): Unit = {
     currentTool match {
@@ -36,16 +41,19 @@ class Paint {
   
   
   //helpers for draw()
-  private def drawLine(x1: Double, y1: Double, x2: Double, y2: Double) = {
-    objects += new Line(x1, y1, x2, y2, currentColor)
-    redoStack.clear
-  }
+   private def drawLine(x1: Double, y1: Double, x2: Double, y2: Double) = {
+     if (preview) previewElement = new Line(x1, y1, x2, y2, currentColor)
+     else {
+       objects += new Line(x1, y1, x2, y2, currentColor)
+       redoStack.clear
+     }
+   }
   
-  private def drawText(x: Double, y: Double, s: String) = {
+  private def drawText(x: Double, y: Double, s: String) = {//TODO: font size
     if (s.isEmpty()) {
       var string = Dialog.showInput(null, "Please enter the the text",
         "Text", Dialog.Message.Question, null, initial = "").getOrElse("")
-      if (string != "") {
+      if (string.nonEmpty) {
         objects += new Text(x.toFloat, y.toFloat, string, currentColor)
         redoStack.clear
       }
@@ -54,23 +62,35 @@ class Paint {
   }
   
   private def drawSquare(x: Double, y: Double, a: Double) = {
-    objects += new Square(x, y, a, currentColor, fill)
-    redoStack.clear
+    if (preview) previewElement = new Square(x, y, a, currentColor, fill)
+    else {
+      objects += new Square(x, y, a, currentColor, fill)
+      redoStack.clear
+    }
   }
   
   private def drawRectangle(x: Double, y: Double, width: Double, height: Double) = {
-    objects += new Rectangle(x, y, width, height, currentColor, fill)
-    redoStack.clear
+    if (preview) previewElement = new Rectangle(x, y, width, height, currentColor, fill)
+    else {
+      objects += new Rectangle(x, y, width, height, currentColor, fill)
+      redoStack.clear
+    }
   }
   
   private def drawCircle(x: Double, y: Double, d: Double) = {
-    objects += new Circle(x, y, d, currentColor, fill)
-    redoStack.clear
+    if (preview) previewElement = new Circle(x, y, d, currentColor, fill)
+    else {
+      objects += new Circle(x, y, d, currentColor, fill)
+      redoStack.clear
+    }
   }
   
   private def drawEllipse(x: Double, y: Double, width: Double, height: Double) = {
-    objects += new Ellipse(x, y, width, height, currentColor, fill)
-    redoStack.clear
+    if (preview) previewElement = new Ellipse(x, y, width, height, currentColor, fill)
+    else {
+      objects += new Ellipse(x, y, width, height, currentColor, fill)
+      redoStack.clear
+    }
   }
   
 

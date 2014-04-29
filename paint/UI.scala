@@ -18,9 +18,12 @@ object UI extends SimpleSwingApplication {
     
     menuBar = new MenuBar() {
       contents += new Menu("File") {
-        contents += new MenuItem(new Action("Quit") {
-          def apply = {System.exit(0)}
-          accelerator = Some(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0))
+        contents += new MenuItem(new Action("New") {
+          def apply = {
+            main.clear
+            frame.contents.head.asInstanceOf[GridBagPanel].contents(1).repaint
+          }
+          accelerator = Some(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK))
         })
         contents += new MenuItem(new Action("Save") {
           def apply = {
@@ -33,6 +36,10 @@ object UI extends SimpleSwingApplication {
             io.load
             frame.contents.head.asInstanceOf[GridBagPanel].contents(1).repaint
           }
+        })
+        contents += new MenuItem(new Action("Quit") {
+          def apply = {System.exit(0)}
+          accelerator = Some(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0))
         })
       }
       
