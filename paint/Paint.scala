@@ -16,7 +16,7 @@ class Paint {
   private var currentTool = "square"
   private var fill = false
   private var preview = false
-  private var previewElement: Colored = null
+  private var previewElement: Colored = new Rectangle(0,0,0,0, currentColor, false)
 
   def getObjects = objects
   def setCurrentColor(newColor: Color) = {currentColor = newColor}
@@ -29,9 +29,21 @@ class Paint {
   
   def draw(x1: Double, x2: Double, y1: Double, y2: Double, stringForText: String = ""): Unit = {
     currentTool match {
-      case "square" => drawSquare(min(x1,x2), min(y1,y2), max(abs(x1-x2), abs(y1-y2)))
+      case "square" => { //drawSquare(min(x1,x2), min(y1,y2), max(abs(x1-x2), abs(y1-y2)))
+        var a = max(abs(x1-x2), abs(y1-y2))
+        if (x1 > x2 && y1 > y2) drawSquare(x1 - a, y1 - a, a)
+        else if (x1 > x2 && y1 < y2) drawSquare(x1 - a, y1, a)
+        else if (x1 < x2 && y1 > y2) drawSquare(x1, y1 - a, a)
+        else if (x1 < x2 && y1 < y2) drawSquare(x1, y1, a)
+      }
       case "rectangle" => drawRectangle(min(x1,x2), min(y1,y2), abs(x1-x2), abs(y1-y2))
-      case "circle" => drawCircle(min(x1,x2), min(y1,y2), max(abs(x1-x2), abs(y1-y2)))
+      case "circle" => { //drawCircle(min(x1,x2), min(y1,y2), max(abs(x1-x2), abs(y1-y2)))
+        var d = max(abs(x1-x2), abs(y1-y2))
+        if (x1 > x2 && y1 > y2) drawCircle(x1 - d, y1 - d, d)
+        else if (x1 > x2 && y1 < y2) drawCircle(x1 - d, y1, d)
+        else if (x1 < x2 && y1 > y2) drawCircle(x1, y1 - d, d)
+        else if (x1 < x2 && y1 < y2) drawCircle(x1, y1, d)
+      }
       case "ellipse" => drawEllipse(min(x1,x2), min(y1,y2), abs(x1-x2), abs(y1-y2))
       case "line" => drawLine(x1, y1, x2, y2)
       case "text" => drawText(x1, y1, stringForText)
