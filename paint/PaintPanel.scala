@@ -3,7 +3,6 @@ import scala.swing._
 import java.awt.Color
 import javax.swing.border._
 import java.awt.Shape
-import scala.swing.event.MouseClicked
 class PaintPanel(x: Int, y: Int, main: Paint) extends GridPanel(1,1) {
   
   preferredSize = new Dimension(x,y)
