@@ -8,10 +8,6 @@ object UI extends SimpleSwingApplication {
   val main = new Paint
   val io = new IO(main)
   
-  
-  /*Based on Otfried Cheong's tutorial
-    http://otfried-cheong.appspot.com/scala/index_40.html
-   */
   def top = frame.pack
   val frame: MainFrame = new MainFrame () {
     title = "ScalaPaint"
@@ -21,6 +17,7 @@ object UI extends SimpleSwingApplication {
         contents += new MenuItem(new Action("New") {
           def apply = {
             main.clear
+            //repaint the canvas
             frame.contents.head.asInstanceOf[GridBagPanel].contents(1).repaint
           }
           accelerator = Some(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK))
@@ -60,7 +57,10 @@ object UI extends SimpleSwingApplication {
         })
       }
     }
-    
+
+    /*Based on Otfried Cheong's tutorial
+    http://otfried-cheong.appspot.com/scala/index_40.html
+    */
     contents = new GridBagPanel {
       def constraints(x: Int, y: Int, gridwidth: Int = 1, gridheight: Int = 1,
                       weightx: Double = 0.0, weighty: Double = 0.0, fill: GridBagPanel.Fill.Value = GridBagPanel.Fill.None): Constraints = {
@@ -76,7 +76,7 @@ object UI extends SimpleSwingApplication {
     add(toolbar, constraints(0, 0, gridheight=2))
     
     
-    add(new ScrollPane(new PaintPanel(400, 400, main)),
+    add(new ScrollPane(new PaintPanel(800, 600, main)),
 	constraints(1, 0, gridwidth=2, gridheight=4, weightx = 1.0, weighty = 1.0, 
 		    fill=GridBagPanel.Fill.Both))
 

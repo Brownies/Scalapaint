@@ -10,6 +10,7 @@ class ToolPanel(x: Int, y: Int, main: Paint) extends GridPanel(x, y){
   preferredSize = new Dimension(100, 500)
   minimumSize = new Dimension(100, 500)
   maximumSize = new Dimension(100, 500)
+  //buttons for selecting different tools
   val tools = Vector("line", "text", "square", "square_fill", "rectangle", "rectangle_fill", "circle", "circle_fill", "ellipse", "ellipse_fill")
   val toolButtons = scala.collection.mutable.Buffer[Button]()
   tools.foreach(tool => toolButtons += new Button {
@@ -27,6 +28,7 @@ class ToolPanel(x: Int, y: Int, main: Paint) extends GridPanel(x, y){
     }
   })
   
+  //buttons for colors
   val colors = Vector(BLACK, WHITE, GRAY, DARK_GRAY, GREEN, RED, BLUE, YELLOW)
   colors.foreach(color => toolButtons += new Button {
     background = color
@@ -37,6 +39,8 @@ class ToolPanel(x: Int, y: Int, main: Paint) extends GridPanel(x, y){
       case event.ButtonClicked(_) => main.setCurrentColor(color)
     }
   })
+  
+  //the color chooser
   toolButtons += new Button {
     icon = new ImageIcon("src/paint/pics/color_chooser.png")
     focusable = false

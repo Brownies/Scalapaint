@@ -12,7 +12,7 @@ class IO (main: Paint) {
     fileChooser.showOpenDialog(null)
     val saveFile = fileChooser.getSelectedFile
     try {
-      if (saveFile == null) return
+      if (saveFile == null) return //user pressed cancel
       if (!saveFile.canWrite) throw new IOException("Unable to write to file")
       saveFile.createNewFile
       val writer = new PrintWriter(saveFile)
@@ -86,7 +86,7 @@ class IO (main: Paint) {
         }
       }
       catch {
-        case e: Exception => e.printStackTrace()
+        case e: Exception =>
       }
     }
     scanner.close()

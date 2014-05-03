@@ -18,36 +18,43 @@ class Paint {
   private var preview = false
   private var previewElement: Colored = new Rectangle(0,0,0,0, currentColor, false)
 
+  //getters and setters
   def getObjects = objects
-  def setCurrentColor(newColor: Color) = {currentColor = newColor}
+  def setCurrentColor(newColor: Color) = currentColor = newColor
   def getCurrentColor = currentColor
-  def setCurrentTool(newTool: String) = {currentTool = newTool}
-  def setFill(a: Boolean) = {fill = a}
-  def clear = {objects.clear}
-  def setPreview(a: Boolean) = {preview = a}
-  def isPreview = {preview}
-  def getPreviewElement = {previewElement}
+  def setCurrentTool(newTool: String) = currentTool = newTool
+  def setFill(a: Boolean) = fill = a
+  def clear = objects.clear
+  def setPreview(a: Boolean) = preview = a
+  def isPreview = preview
+  def getPreviewElement = previewElement
   
   def draw(x1: Double, x2: Double, y1: Double, y2: Double, stringForText: String = "", textSize: Int = 12): Unit = {
     currentTool match {
-      case "square" => { //drawSquare(min(x1,x2), min(y1,y2), max(abs(x1-x2), abs(y1-y2)))
+      case "square" => {
         var a = max(abs(x1-x2), abs(y1-y2))
         if (x1 > x2 && y1 > y2) drawSquare(x1 - a, y1 - a, a)
         else if (x1 > x2 && y1 < y2) drawSquare(x1 - a, y1, a)
         else if (x1 < x2 && y1 > y2) drawSquare(x1, y1 - a, a)
         else if (x1 < x2 && y1 < y2) drawSquare(x1, y1, a)
       }
+      
       case "rectangle" => drawRectangle(min(x1,x2), min(y1,y2), abs(x1-x2), abs(y1-y2))
-      case "circle" => { //drawCircle(min(x1,x2), min(y1,y2), max(abs(x1-x2), abs(y1-y2)))
+      
+      case "circle" => {
         var d = max(abs(x1-x2), abs(y1-y2))
         if (x1 > x2 && y1 > y2) drawCircle(x1 - d, y1 - d, d)
         else if (x1 > x2 && y1 < y2) drawCircle(x1 - d, y1, d)
         else if (x1 < x2 && y1 > y2) drawCircle(x1, y1 - d, d)
         else if (x1 < x2 && y1 < y2) drawCircle(x1, y1, d)
       }
+      
       case "ellipse" => drawEllipse(min(x1,x2), min(y1,y2), abs(x1-x2), abs(y1-y2))
+      
       case "line" => drawLine(x1, y1, x2, y2)
+      
       case "text" => drawText(x1, y1, stringForText, textSize)
+      
       case _ =>
     }
   }
@@ -116,7 +123,7 @@ class Paint {
     }
   }
   
-
+  //undo/redo
   private var redoStack = Stack[Colored]()
   def undo = {
     if (objects.nonEmpty) {
@@ -130,6 +137,7 @@ class Paint {
   }
 }
 
+//Classes for all drawn objects
 trait Colored {def getColor: Color; def getFill: Boolean}
 
 class Line(x1: Double, y1: Double, x2: Double, y2: Double, color: Color)
