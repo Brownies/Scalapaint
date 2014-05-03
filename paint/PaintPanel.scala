@@ -35,6 +35,8 @@ class PaintPanel(x: Int, y: Int, main: Paint) extends GridPanel(1,1) {
       }
       else {
         var elem2 = elem.asInstanceOf[Text]
+        var f = g.getFont()
+        g.setFont(new Font(f.getName, f.getStyle, elem2.size))
         g.drawString(elem2.string, elem2.x, elem2.y)
       }
     })

@@ -52,7 +52,7 @@ class IO (main: Paint) {
           case "text" => {
             main.setCurrentColor(new Color(arr(4).toInt))
             main.setCurrentTool("text")
-            main.draw(arr(1).toInt, 0, arr(2).toInt, 0, arr(3))
+            main.draw(arr(1).toInt, 0, arr(2).toInt, 0, arr(3), arr(5).toInt)
           }
           case "square" => {
             main.setCurrentColor(new Color(arr(4).toInt))
@@ -86,7 +86,7 @@ class IO (main: Paint) {
         }
       }
       catch {
-        case e: Exception =>
+        case e: Exception => e.printStackTrace()
       }
     }
     scanner.close()

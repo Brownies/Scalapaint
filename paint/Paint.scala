@@ -28,7 +28,7 @@ class Paint {
   def isPreview = {preview}
   def getPreviewElement = {previewElement}
   
-  def draw(x1: Double, x2: Double, y1: Double, y2: Double, stringForText: String = ""): Unit = {
+  def draw(x1: Double, x2: Double, y1: Double, y2: Double, stringForText: String = "", textSize: Int = 12): Unit = {
     currentTool match {
       case "square" => { //drawSquare(min(x1,x2), min(y1,y2), max(abs(x1-x2), abs(y1-y2)))
         var a = max(abs(x1-x2), abs(y1-y2))
@@ -47,7 +47,7 @@ class Paint {
       }
       case "ellipse" => drawEllipse(min(x1,x2), min(y1,y2), abs(x1-x2), abs(y1-y2))
       case "line" => drawLine(x1, y1, x2, y2)
-      case "text" => drawText(x1, y1, stringForText)
+      case "text" => drawText(x1, y1, stringForText, textSize)
       case _ =>
     }
   }
@@ -62,16 +62,26 @@ class Paint {
      }
    }
   
-  private def drawText(x: Double, y: Double, s: String) = {//TODO: font size
-    if (s.isEmpty()) {
+  private def drawText(x: Double, y: Double, str: String, size: Int): Unit = {
+    if (str.isEmpty()) {
       var string = Dialog.showInput(null, "Please enter the the text",
-        "Text", Dialog.Message.Question, null, initial = "").getOrElse("")
+        "Text", Dialog.Message.Question, null, initial = "").getOrElse(return)
       if (string.nonEmpty) {
-        objects += new Text(x.toFloat, y.toFloat, string, currentColor)
+        var validSize = false
+        var size = 12
+        do {
+          validSize = true
+          try {
+            var sizeIn = Dialog.showInput(null, "Please enter the font size", "Font size", Dialog.Message.Question, null, initial = "12").getOrElse(return)
+            size = sizeIn.toInt
+          }
+          catch {case e: NumberFormatException => validSize = false}
+        } while(!validSize)
+        objects += new Text(x.toFloat, y.toFloat, string, currentColor, size)
         redoStack.clear
       }
     }
-    else objects += new Text(x.toFloat, y.toFloat, s, currentColor); redoStack.clear
+    else objects += new Text(x.toFloat, y.toFloat, str, currentColor, size); redoStack.clear
   }
   
   private def drawSquare(x: Double, y: Double, a: Double) = {
@@ -131,10 +141,10 @@ class Line(x1: Double, y1: Double, x2: Double, y2: Double, color: Color)
 }
 
 
-class Text(val x: Float, val y: Float, val string: String, color: Color) extends Colored {
+class Text(val x: Float, val y: Float, val string: String, color: Color, val size: Int) extends Colored {
   def getColor = color; def getFill = false;
   override def toString = {
-    "text," + Array[AnyVal](x.toInt, y.toInt, string, color.getRGB).mkString(",")
+    "text," + Array[AnyVal](x.toInt, y.toInt, string, color.getRGB, size).mkString(",")
   }
 }
 
