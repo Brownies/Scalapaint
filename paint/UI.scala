@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent
 import scala.swing._
 
 object UI extends SimpleSwingApplication {
+
   val main = new Paint
   val io = new IO(main)
   

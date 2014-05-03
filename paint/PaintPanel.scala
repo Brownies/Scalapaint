@@ -3,6 +3,7 @@ import scala.swing._
 import java.awt.Color
 import javax.swing.border._
 import java.awt.Shape
+import java.awt.event.MouseEvent
 
 //a PaintPanel is the canvas that the user will paint on
 class PaintPanel(x: Int, y: Int, main: Paint) extends GridPanel(1,1) {
@@ -10,18 +11,30 @@ class PaintPanel(x: Int, y: Int, main: Paint) extends GridPanel(1,1) {
   preferredSize = new Dimension(x,y)
   listenTo(mouse.clicks, mouse.moves)
   var x1, x2, y1, y2 = 0D
+  var lmb = false
   this.reactions += {
-    case a: event.MousePressed => this.x1 = a.point.getX; this.y1 = a.point.getY; main.setPreview(true)
-    case b: event.MouseDragged => {
+    case a: event.MousePressed => {
+      if(a.peer.getButton() == MouseEvent.BUTTON1) {
+      this.x1 = a.point.getX; this.y1 = a.point.getY; main.setPreview(true)
+      lmb = true
+      }
+      else lmb = false
+    }
+    
+    
+    case b: event.MouseDragged => if(lmb) {
       this.x2 = b.point.getX(); this.y2 = b.point.getY()
       main.draw(this.x1, this.x2, this.y1, this.y2)
       this.repaint
     }
+      
     case c: event.MouseReleased => {
-      main.setPreview(false)
-      this.x2 = c.point.getX; this.y2 = c.point.getY
-      main.draw(this.x1, this.x2, this.y1, this.y2)
-      this.repaint
+      if (c.peer.getButton() == MouseEvent.BUTTON1) {
+        main.setPreview(false)
+        this.x2 = c.point.getX; this.y2 = c.point.getY
+        main.draw(this.x1, this.x2, this.y1, this.y2)
+        this.repaint
+      }
     }
   }
   
