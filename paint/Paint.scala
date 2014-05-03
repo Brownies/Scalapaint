@@ -20,6 +20,7 @@ class Paint {
 
   def getObjects = objects
   def setCurrentColor(newColor: Color) = {currentColor = newColor}
+  def getCurrentColor = currentColor
   def setCurrentTool(newTool: String) = {currentTool = newTool}
   def setFill(a: Boolean) = {fill = a}
   def clear = {objects.clear}

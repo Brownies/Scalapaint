@@ -2,6 +2,7 @@ package paint
 import scala.swing._
 import java.awt.Color._
 import javax.swing.ImageIcon
+import javax.swing.JColorChooser
 
 
 class ToolPanel(x: Int, y: Int, main: Paint) extends GridPanel(x, y){
@@ -36,6 +37,17 @@ class ToolPanel(x: Int, y: Int, main: Paint) extends GridPanel(x, y){
       case event.ButtonClicked(_) => main.setCurrentColor(color)
     }
   })
-  
+  toolButtons += new Button {
+    icon = new ImageIcon("src/paint/pics/color_chooser.png")
+    focusable = false
+    preferredSize = new Dimension(50,50)
+    listenTo(this)
+    reactions += {
+      case event.ButtonClicked(_) => {
+        var newColor = JColorChooser.showDialog(null, "Pick a color", main.getCurrentColor)
+        if (newColor != null) main.setCurrentColor(newColor)
+      }
+    }
+  }
   contents ++= toolButtons
 }
