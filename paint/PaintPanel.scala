@@ -18,7 +18,6 @@ class PaintPanel(x: Int, y: Int, main: Paint) extends GridPanel(1,1) {
       this.x1 = a.point.getX; this.y1 = a.point.getY; main.setPreview(true)
       lmb = true
       }
-      else lmb = false
     }
     
     
@@ -33,7 +32,7 @@ class PaintPanel(x: Int, y: Int, main: Paint) extends GridPanel(1,1) {
         main.setPreview(false)
         this.x2 = c.point.getX; this.y2 = c.point.getY
         main.draw(this.x1, this.x2, this.y1, this.y2)
-        this.repaint
+        this.repaint; lmb = false
       }
     }
   }
