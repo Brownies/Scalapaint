@@ -10,6 +10,7 @@ import scala.swing.Dialog
 
 class Paint {
   private var objects = Buffer[Colored]()
+  private var redoStack = Stack[Colored]()
   
   //defaults
   private var currentColor = Color.BLACK
@@ -24,7 +25,7 @@ class Paint {
   def getCurrentColor = currentColor
   def setCurrentTool(newTool: String) = currentTool = newTool
   def setFill(a: Boolean) = fill = a
-  def clear = objects.clear
+  def clear = objects.clear; redoStack.clear
   def setPreview(a: Boolean) = preview = a
   def isPreview = preview
   def getPreviewElement = previewElement
@@ -124,7 +125,6 @@ class Paint {
   }
   
   //undo/redo
-  private var redoStack = Stack[Colored]()
   def undo = {
     if (objects.nonEmpty) {
       redoStack.push(objects.last)
