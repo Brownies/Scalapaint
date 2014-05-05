@@ -42,7 +42,7 @@ class ToolPanel(x: Int, y: Int, main: Paint) extends GridPanel(x, y){
   
   //the color chooser
   toolButtons += new Button {
-    icon = new ImageIcon("src/paint/pics/color_chooser.png")
+    icon = new ImageIcon("src/paint/pics/color_chooser.png")//upscaled and sharpened from GIMP's select by color tool
     focusable = false
     preferredSize = new Dimension(50,50)
     listenTo(this)
